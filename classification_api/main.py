@@ -20,8 +20,8 @@ app.add_middleware(
 @app.post("/classify/")
 def make_inference(image_file: UploadFile = File(...)):
     try:
-        np_image = np.fromfile(image_file.file)
-        image = cv2.imdecode(np_image, cv2.IMREAD_COLOR)
+        np_image = np.fromfile(image_file.file, dtype=np.uint8)
+        image = cv2.imdecode(np_image, -1)
         pred = classify_trash(image=image)
         return {"result": pred[0]}
     except:
